@@ -20,6 +20,7 @@ class PostSerializer(serializers.ModelSerializer):
     tags = TagSerializer(Tag, many=True)
     blog_heading = serializers.SerializerMethodField()
     category_name = serializers.SerializerMethodField()
+    banner_photo = serializers.FileField(required=False)
     class Meta:
         model = Post
         fields = ('title',
