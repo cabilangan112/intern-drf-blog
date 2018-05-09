@@ -3,20 +3,22 @@
 <head></head>
  <style type="text/css">
 #list{
-    background-color: #C8F7C5;
+ 
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    max-width: 900px;
-    margin:auto;
+padding-left: 20px;
+ 
     transition: 0.3s;
-    border-radius: 20px;
-    padding-left: 20px;
+ 
     padding-bottom:20px;
 }
 img{
    width: 300px;
 }
 </style>
+ 
   <li id="list"></li>
+
+  
   <script src="jquery.js"></script>
   <script type="text/javascript">
 $.ajax({
@@ -31,15 +33,18 @@ $.ajax({
              var list = data[i];
              console.log(list)
              mylist.append(
+            '<p>' + list.date_modified + '</p>', 
+            '<p>' + list.title + '</p>',  
             '<img src="'+list.banner_photo+'">', 
-            '<li>' + list.blog.heading + '</li>',
-            '<li>' + list.category.title + '</li>',
-            '<li>' + list.country + '</li>',
-            '<li>' + list.is_official + '</li>')
+            '<p>' + list.body + '</p>',
+            '<li>' + list.category_name + '</li>',
+            '<li>' + list.tags + '</li>',
+            '<li>' + list.status + '</li>')
         }
        }
       }
      )
+
     </script>
   </body>
 </html>

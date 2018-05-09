@@ -16,13 +16,14 @@ Including another URLconf
 from django.conf.urls import url, include
 from rest_framework import routers
 from blog import views
-from blog.views import PostViewSet,CommentViewSet,CategoryViewSet
+from blog.views import PostViewSet,CommentViewSet,CategoryViewSet,TagViewSet
 from django.conf import settings
 from django.conf.urls.static import static
 
 router = routers.DefaultRouter()
 router.register(r'post', PostViewSet, base_name='post')
 router.register(r'comment', CommentViewSet, base_name='comment')
+router.register(r'tags', TagViewSet, base_name='tags')
 router.register(r'category', CategoryViewSet, base_name='category')
 
 

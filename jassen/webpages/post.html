@@ -1,117 +1,92 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script src="jquery.js"></script>
-  <title></title>
+  <title>Weak</title>
 </head>
-<body>
-<div class="container">
-     <form  method="POST"  enctype="multipart/form-data">
-        <h2 class="form-signin-heading">Add Post</h2>
-         <div>
-             <label for="inputtitle" class="sr-only">title</label>
-             <input type="title" id="inputtitle" class="form-control" placeholder="Title " required autofocus>
-         </div>
-         <div
-             <label for="inputsub_title" class="sr-only">sub title</label>
-             <input type="sub_title" id="inputsub_title" class="form-control" placeholder="Sub title" required autofocus>
-         </div>
-         <div class="thumbnails" style="width:400px;">
-            <label class="cabinet BrandHeader">Banner Photo
-            <input type="file" class="file" id="banner_photo" > 
-              </label> 
-         </div>
-         <div
-            <label for="inputbody" class="sr-only">Body</label>
-            <input type="body" id="inputbody" class="form-control" placeholder="Text" required autofocus>
-         </div>
-         <div>
-            <label for="inputblog" class="sr-only">Blog</label>
-            <input type="blog" id="inputblog" class="form-control"  required autofocus>
-         </div>
-         <div>
-            <label for="inputcategory" class="sr-only">Category</label>
-            <input type="category" id="inputcategory" class="form-control"  required autofocus>
-         </div>  
-         <div>
-            <label for="inputtags" class="sr-only">Tags</label>
-            <input type="tags" id="inputtags" class="form-control"  required autofocus>
-         </div> 
-         <div>
-            <label for="inputstatus" class="sr-only">status</label>
-            <input type="status" id="inputstatus" class="form-control"  required autofocus>
-         </div>   
-         <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">submit</button>
-     </form>
- </div>
-<script type="text/javascript">
-function getCookie(name) {
-       var cookieValue = null;
-       if (document.cookie && document.cookie != '') {
-         var cookies = document.cookie.split(';');
-         for (var i = 0; i < cookies.length; i++) {
-         var cookie = jQuery.trim(cookies[i]);
-         // Does this cookie string begin with the name we want?
-         if (cookie.substring(0, name.length + 1) == (name + '=')) {
-             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-             break;
-          }
-     }
- }
- return cookieValue;
-}
-//For doing AJAX post
-
-//When submit is clicked
- $("#submit").click(function(e) {
-
-//Prevent default submit. Must for Ajax post.Beginner's pit.
- e.preventDefault();
-
-//Prepare csrf token
- var csrftoken = getCookie('csrftoken');
-
-
-//Collect data from fields
-var title = $('#inputtitle').val();
-var sub_title = $('#inputsub_title').val();
-var photo = $('#inputbanner_photo').val();
-var body = $('#inputbody').val();
-var blog = $('#inputblog').val();
-var category = $('#inputcategory').val();
-var tags = $('#inputtags').val();
-var statu = $('#inputstatus').val();
-
-
-//This is the Ajax post.Observe carefully. It is nothing but details of where_to_post,what_to_post
-//Send data  
- $.ajax({
-       url : 'http://127.0.0.1:8000/post/', // the endpoint,commonly same url
-       type : "POST", // http method
-       data : { csrfmiddlewaretoken : csrftoken, 
-       title : title,
-       sub_title : sub_title,
-       photo : photo,
-       body : body,
-       blog : blog,
-       category : category,
-       tags : tags,
-       status : status
- }, // data sent with the post request
-
- // handle a successful response
- success : function(json) {
- console.log(json); // another sanity check
- //On success show the data posted to server as a message
- alert('Post Added');
- },
-
- // handle a non-successful response
- error : function(xhr,errmsg,err) {
- console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
- }
- });
-});
-</script>
+  <body>
+    <div class="container">
+      <form  method="POST" id="postform" enctype="multipart/form-data">
+        <div>
+          <label for="inputtitle" class="sr-only">Title</label>
+          <input type="text" name="title" class="form-control" placeholder="" required autofocus>
+        </div>
+        <div>
+          <label for="inputsub_title" class="sr-only">Sub Title</label>
+          <input type="text" name="sub_title" class="form-control" placeholder="" required autofocus>
+        </div>
+        <div class="thumbnails" style="width:400px;">
+          <label class="cabinet BrandHeader">Banner Photo</label>
+          <input type="file" class="file" name="banner_photo" id="test">
+        </div>
+        <div>
+          <label class="cabinet BrandHeader">Body</label>
+          <textarea class="form-control" name="body" placeholder="" required autofocus></textarea>
+        </div>
+        <div>
+          <label for="inputcategory" class="sr-only">Category</label>
+          <select name="category" id="category"></select>
+        </div>
+        <div>
+          <label for="inputtags" class="sr-only">Tags</label>
+          <select name="tags" id="tags" multiple></select>
+        </div>
+        <div>
+          <label for="inputstatus" class="sr-only">Status</label>
+          <select name="status">
+            <option value="published">Published</option>
+            <option value="draft">Draft</option>
+            <option value="hidden">Hidden</option>
+          </select>
+        </div>
+        <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+      </form>
+    </div>
 </body>
+  <script src="jquery.js"></script>
+     <script src="form.js"></script> 
+<script type="text/javascript">
+
+    var URL = "http://127.0.0.1:8000/";
+    $('#tags option').click(function() {
+        $('#tags option').removeClass('selected');
+        $(this).addClass('selected');
+    });
+    $.get(URL + "tags/", function(data) {
+          console.log(data);
+          var tags = $('#tags');
+          $.each(data, function (index, value) {
+             console.log(value);
+             tags.append(
+            "<option value='"+value.id+"'>" + value.title+ "</option>"
+             );
+          });
+    });
+    $.get(URL + "category/", function(data) {
+          var category = $('#category');
+          $.each(data, function (index, value ){
+            console.log(value.title);
+            category.append(
+               "<option value='"+value.id+"'>" + value.title+ "</option>"
+                );
+          });
+    });
+
+    $('#submit').on('click', function(e){
+           e.preventDefault();
+           $('#postform').ajaxSubmit({
+               url: 'http://127.0.0.1:8000/post/',
+               type: 'POST',
+               success : function (response) {
+                  console.log(response);
+                  $("#postform")[0].reset();
+               },
+               error : function (response)
+              {
+                  console.log(response);
+              }
+      });
+    });
+  </script>
+</body>
+
 </html>
