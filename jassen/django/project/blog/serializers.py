@@ -15,6 +15,7 @@ class TagSerializer(serializers.ModelSerializer):
  
 
 class PostSerializer(serializers.ModelSerializer):
+    tags = serializers.StringRelatedField(many=True)
     date_display = serializers.SerializerMethodField()
     timesince = serializers.SerializerMethodField()
     category_name = serializers.SerializerMethodField()
