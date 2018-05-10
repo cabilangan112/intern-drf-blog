@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Edit Post</title>
-</head>
-  <body>
     <div class="container">
-      <form  action="" method="POST" id="postform" enctype="multipart/form-data">
+      <form  method="POST" id="ourcontainer" enctype="multipart/form-data">
         <div>
           <label for="inputtitle" class="sr-only">Title</label>
           <input type="text" name="title" class="form-control" placeholder="" required autofocus>
@@ -41,52 +35,38 @@
         <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
       </form>
     </div>
-</body>
-  <script src="jquery.js"></script>
-     <script src="form.js"></script> 
+<script src="jquery.js"></script>
+<script src="form.js"></script> 
 <script type="text/javascript">
+  
+  var btn = document.getElementById("btn")
+  var container = document.getElementById("ourcontainer")
+  var url = "http://127.0.0.1:8000/post/1/";
 
-    var URL = "http://127.0.0.1:8000/";
-    $('#tags option').click(function() {
-        $('#tags option').removeClass('selected');
-        $(this).addClass('selected');
-    });
-    $.get(URL + "tags/", function(data) {
-          console.log(data);
-          var tags = $('#tags');
-          $.each(data, function (index, value) {
-             console.log(value);
-             tags.append(
-            "<option value='"+value.id+"'>" + value.title+ "</option>"
-             );
-          });
-    });
-    $.get(URL + "category/", function(data) {
-          var category = $('#category');
-          $.each(data, function (index, value ){
-            console.log(value.title);
-            category.append(
-               "<option value='"+value.id+"'>" + value.title+ "</option>"
-                );
-          });
-    });
+    $.get(url,function(){
+    var ourRequest = new XMLHttpRequest();
+      ourRequest.open("GET",url);
+      ourRequest.onload = function(){
+        console.log(ourRequest.responseText);
+        var ourData = JSON.parse(ourRequest.responseText);
+        console.log(ourData);
 
+      } 
+    ourRequest.send();
+  })
     $('#submit').on('click', function(e){
            e.preventDefault();
-           $('#postform').ajaxSubmit({
-               url: '127.0.0.1:8000/post/1',
-               type: 'PUT',
+           $('#ourcontainer').ajaxSubmit({
+               url: 'http://127.0.0.1:8000/post/',
+               type: 'POST',
                success : function (response) {
                   console.log(response);
-                  $("#postform")[0].reset();
+                  $("#ourcontainer")[0].reset();
                },
                error : function (response)
               {
                   console.log(response);
               }
       });
-    });
-  </script>
-</body>
-
-</html>
+    });    
+</script>

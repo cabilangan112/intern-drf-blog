@@ -3,24 +3,7 @@
 <head>  <meta charset="utf-8">
  <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></head>
- <style type="text/css">
-#list{
- 
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-padding-left: 20px;
- 
-    transition: 0.3s;
- 
-    padding-bottom:20px;
-}
-img{
-   width: 300px;
-}
-</style>
- 
   <li id="list"></li>
-
-  
   <script src="jquery.js"></script>
   <script type="text/javascript">
 $.ajax({
@@ -35,18 +18,17 @@ $.ajax({
              var list = data[i];
              console.log(list)
              mylist.append(
-            '<p>' + list.date_modified + '</p>', 
-            '<p>' + list.title + '</p>',  
-            '<img src="'+list.banner_photo+'">', 
-            '<p>' + list.body + '</p>',
-            '<li>' + list.category_name + '</li>',
-            '<li>' + list.tags + '</li>',
-            '<li>' + list.status + '</li>')
+             '<p>' + list.date_modified + '</p>', 
+             '<p>' + list.title + '</p>',  
+             '<img src="'+list.banner_photo+'">', 
+             '<p>' + list.body + '</p>',
+             '<li>' + list.category_name + '</li>',
+             '<li>' + list.tags + '</li>',
+             '<li>' + list.status + '</li>')
         }
        }
       }
      )
- 
    </script>
   </body>
 </html>
