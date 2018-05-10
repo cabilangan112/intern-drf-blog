@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Weak</title>
+  <title>Edit Post</title>
 </head>
   <body>
     <div class="container">
-      <form  method="POST" id="postform" enctype="multipart/form-data">
+      <form  action="" method="POST" id="postform" enctype="multipart/form-data">
         <div>
           <label for="inputtitle" class="sr-only">Title</label>
           <input type="text" name="title" class="form-control" placeholder="" required autofocus>
@@ -42,9 +42,10 @@
       </form>
     </div>
 </body>
-<script src="jquery.js"></script>
-<script src="form.js"></script> 
+  <script src="jquery.js"></script>
+     <script src="form.js"></script> 
 <script type="text/javascript">
+
     var URL = "http://127.0.0.1:8000/";
     $('#tags option').click(function() {
         $('#tags option').removeClass('selected');
@@ -73,8 +74,8 @@
     $('#submit').on('click', function(e){
            e.preventDefault();
            $('#postform').ajaxSubmit({
-               url: 'http://127.0.0.1:8000/post/',
-               type: 'POST',
+               url: '127.0.0.1:8000/post/1',
+               type: 'PUT',
                success : function (response) {
                   console.log(response);
                   $("#postform")[0].reset();
@@ -85,16 +86,6 @@
               }
       });
     });
-
-   $.get(URL + "post/" + 1+ "/", function(data) {
-    console.log(data);
-    var detail = $('#container-postdetail');
-    var tag;
-    // console.log(detail);
-    detail.append(
-        '<h1><b>' + data.title + '</b></h1><small>' + data.status + '</small><p>' + data.subtitle + '</p><img src="' + data.banner_photo + '"><p>' + data.tags + '</p><p>' + data.category_name + '</p><p>' + data.body + '</p><small>' + data.date_display + ',Updated ' + data.timesince +'</small>'
-      );
-  });   
   </script>
 </body>
 

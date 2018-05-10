@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style type="text/css">
+	$nav-height: 3em;
+$nav-color: #bbb;
+$nav-background: #2e2e2e;
+
+
+.navbar-fixed {
+  position: fixed;
+  top: -($nav-height);
+}
+
+
+/*----------------------
+  $NAVBAR
+    basic navbar styling
+  ----------------------*/
+
+nav {
+  width: 100%;
+  color: $nav-color;
+  background: $nav-background;
+  font-weight: bold;
+  letter-spacing: 0.025em;
+}
+
+nav ul {
+  text-align: center;
+  margin: 0;
+}
+
+nav ul li {
+ display: inline-block;
+ padding: 0 3em;
+ line-height: 3em;
+}
+
+nav ul li:hover {
+  background: #00939C;
+}
+
+
+/*----------------------
+  $BODY
+  ----------------------*/
+
+body {
+  background: #0B6AD4;
+}
+
+/*----------------------
+  $MISC
+  ----------------------*/
+
+.filler {
+  width: 1px;
+  height: 200px;
+}
+
+.two {
+  height: 3000px;
+}
+</style>
+</body>
+</html>>
+
+<div class="filler one"></div>
+<nav id="navbar">
+  <ul>
+    <li>One</li>
+    <li>Two</li>
+    <li>Three</li>
+  </ul>
+</nav>
+<div class="filler two"></div>
+ 
+</head>
+<body>
+
+
+	<script type="text/javascript">
+		(function($) {
+    "use strict";
+
+    var $navbar = $("#navbar"),
+        y_pos = $navbar.offset().top,
+        height = $navbar.height();
+
+    $(document).scroll(function() {
+        var scrollTop = $(this).scrollTop();
+
+        if (scrollTop > y_pos + height) {
+            $navbar.addClass("navbar-fixed").animate({
+                top: 0
+            });
+        } else if (scrollTop <= y_pos) {
+            $navbar.removeClass("navbar-fixed").clearQueue().animate({
+                top: "-48px"
+            }, 0);
+        }
+    });
+
+})(jQuery, undefined);
+	</script>>
