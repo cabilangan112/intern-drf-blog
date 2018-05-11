@@ -1,46 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8"/>
 	<title></title>
 </head>
 <body>
-	  <li id="list"></li>
+	  <li class="edit" id="list"></li>
+
 <script src="jquery.js"></script>
 <script src="form.js"></script> 
 <script type="text/javascript">
   
-  var btn = document.getElementById("btn")
-  var container = document.getElementById("ourcontainer")
-  var url = "http://127.0.0.1:8000/post/1/";
+  var url = "http://127.0.0.1:8000/post/2/";
 
     $.get(url,function(){
-    var ourRequest = new XMLHttpRequest();
+    	var ourRequest = new XMLHttpRequest();
       ourRequest.open("GET",url);
       ourRequest.onload = function(){
-        console.log(ourRequest.responseText);
         var ourData = JSON.parse(ourRequest.responseText);
-        console.log(ourData)
-        var mylist =$('#list')
-        for (var i = 0; i < ourData.length; i ++ ){
-		        console.log(ourData[i]);
-		        var list = ourData[i];
-		        console.log(list)
-		        mylist.append(
-		       '<p>' + list.date_modified + '</p>', 
-		       '<p>' + list.title + '</p>',  
-		       '<img src="'+list.banner_photo+'">', 
-		       '<p>' + list.body + '</p>',
-		       '<li>' + list.category_name + '</li>',
-		       '<li>' + list.tags + '</li>',
-		       '<li>' + list.status + '</li>')
+        var mylist=$('#list')
 
+             console.log(ourData);
+             mylist.append(
+
+         				'<p class="idit">' + ourData.title + '</p>',
+         				'<img src="'+ourData.banner_photo+'">', 
+         				'<li>' + list.category_name + '</li>',
+         				'<p>' + list.body + '</p>',
+         				'<li>' + list.tags + '</li>',
+         				'<li>' + list.status + '</li>'
+             );
+          
+  
         }
-      } 
-
     ourRequest.send();
 
   })
 
+$("#edit").click(function() {
+    var $this = $(this);
+    if($this.attr('editing') != '1') {
+        $this.text('Save').attr('editing', 1);
+        $(document).find('.edit').each(function() {
+            var input = $('<input class="editing" />').val($(this).text());
+            $(this).replaceWith(input);
+        });
+    }
+    else {
+        $this.text('Edit').removeAttr('editing');
+        $(document).find('input.editing').each(function() {
+            var div = $('<div class="editable" />').text($(this).val());
+            $(this).replaceWith(div);
+        });
+    }
+});    
+ 
+     $('#btn').on('click', function(e){
+           e.preventDefault();
+           $('#postform').ajaxSubmit({
+               url: 'http://127.0.0.1:8000/post/',
+               type: 'POST',
+               success : function (response) {
+                  console.log(response);
+                  $("#postform")[0].reset();
+               },
+               error : function (response)
+              {
+                  console.log(response);
+              }
+      });
+    });
 </script>
 </body>
 </html>

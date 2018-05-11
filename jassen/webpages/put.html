@@ -32,42 +32,60 @@
             <option value="hidden">Hidden</option>
           </select>
         </div>
-        <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+        <button id="edit" class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
       </form>
     </div>
+        <button id="edit">Edit</button>
+        <li class="edit" id="list"></li>
 <script src="jquery.js"></script>
 <script src="form.js"></script> 
 <script type="text/javascript">
   
   var btn = document.getElementById("btn")
   var container = document.getElementById("ourcontainer")
-  var url = "http://127.0.0.1:8000/post/1/";
+
+  var url = "http://127.0.0.1:8000/post/2/";
 
     $.get(url,function(){
-    var ourRequest = new XMLHttpRequest();
+      var ourRequest = new XMLHttpRequest();
       ourRequest.open("GET",url);
       ourRequest.onload = function(){
-        console.log(ourRequest.responseText);
         var ourData = JSON.parse(ourRequest.responseText);
-        console.log(ourData);
+        var mylist=$('#list')
 
-      } 
+             console.log(ourData);
+             mylist.append(
+
+                '<p class="idit">' + ourData.title + '</p>',
+                '<img src="'+ourData.banner_photo+'">', 
+                '<li>' + list.category_name + '</li>',
+                '<p>' + list.body + '</p>',
+                '<li>' + list.tags + '</li>',
+                '<li>' + list.status + '</li>'
+             );
+          
+  
+        }
     ourRequest.send();
-  })
-    $('#submit').on('click', function(e){
-           e.preventDefault();
-           $('#ourcontainer').ajaxSubmit({
-               url: 'http://127.0.0.1:8000/post/',
-               type: 'POST',
-               success : function (response) {
-                  console.log(response);
-                  $("#ourcontainer")[0].reset();
-               },
-               error : function (response)
-              {
-                  console.log(response);
-              }
-      });
-    });    
 
+  })
+ 
+$("#edit").click(function() {
+    var $this = $(this);
+    if($this.attr('editing') != '1') {
+        $this.text('Save').attr('editing', 1);
+        $(document).find('.form-control').each(function() {
+            var input = $('<input class="editing" name="title" />').val($(this).text());
+            $(this).replaceWith(input);
+        });
+    }
+    else {
+        $this.text('Edit').removeAttr('editing');
+        $(document).find('input.editing').each(function() {
+            var div = $('<div class="editable" />').text($(this).val());
+            $(this).replaceWith(div);
+        });
+    }
+});    
+ 
 </script>

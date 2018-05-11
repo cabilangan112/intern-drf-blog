@@ -40,12 +40,14 @@ class PostViewSet(viewsets.ViewSet):
             raise Http404
 
     def put(self, request, pk, format=None):
-        post = self.get_object(pk)
-        serializer = PostSerializer(post, data=request.data)
+        serializer = PostSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            post = serializer.save()
+            for tag in request.data.get('tags'):
+                t = Tag.objects.get(id=tag)
+                post.tags.add(t)
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors )
 
         
     def retrieve(self, request, pk=None):
