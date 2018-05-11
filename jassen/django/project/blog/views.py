@@ -10,10 +10,12 @@ from .serializers import PostSerializer,CommentSerializer,CategorySerializer,Tag
 
 class PostViewSet(viewsets.ViewSet):
     def list(self ,request):
-        queryset = Post.objects.all()
+        queryset = Post.objects.filter(status='published')
         serializer_context = {'request': request,}
         serializer = PostSerializer(queryset, many=True, context=serializer_context)
         return Response(serializer.data)
+
+     
 
     def post(self, request, format=None):
         serializer = PostSerializer(data=request.data)
@@ -57,7 +59,10 @@ class PostViewSet(viewsets.ViewSet):
     def delete(self, request, pk, format=None):
         snippet = self.get_object(pk)
         snippet.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)        
+        return Response(status=status.HTTP_204_NO_CONTENT)  
+
+
+
 class CommentViewSet(viewsets.ViewSet):
     def list(self, request):
         queryset = Comment.objects.all()
@@ -109,3 +114,20 @@ class TagViewSet(viewsets.ViewSet):
         }
         serializer = TagSerializer(tag, context=serializer_context)
         return Response(serializer.data)
+
+
+class HideViewSet(viewsets.ViewSet):
+    def hidden(self ,request):
+        queryset = Post.objects.filter(status='hidden')
+        serializer_context = {'request': request,}
+        serializer = PostSerializer(queryset, many=True, context=serializer_context)
+        return Response(serializer.data) 
+           
+class DraftViewSet(viewsets.ViewSet):
+    def draft(self ,request):
+        queryset = Post.objects.filter(status='draft')
+        serializer_context = {'request': request,}
+        serializer = PostSerializer(queryset, many=True, context=serializer_context)
+        return Response(serializer.data)   
+
+

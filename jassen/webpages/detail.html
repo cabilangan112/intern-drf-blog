@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	  <li id="list"></li>
+<script src="jquery.js"></script>
+<script src="form.js"></script> 
+<script type="text/javascript">
+  
+  var btn = document.getElementById("btn")
+  var container = document.getElementById("ourcontainer")
+  var url = "http://127.0.0.1:8000/post/1/";
+
+    $.get(url,function(){
+    var ourRequest = new XMLHttpRequest();
+      ourRequest.open("GET",url);
+      ourRequest.onload = function(){
+        console.log(ourRequest.responseText);
+        var ourData = JSON.parse(ourRequest.responseText);
+        console.log(ourData)
+        var mylist =$('#list')
+        for (var i = 0; i < ourData.length; i ++ ){
+		        console.log(ourData[i]);
+		        var list = ourData[i];
+		        console.log(list)
+		        mylist.append(
+		       '<p>' + list.date_modified + '</p>', 
+		       '<p>' + list.title + '</p>',  
+		       '<img src="'+list.banner_photo+'">', 
+		       '<p>' + list.body + '</p>',
+		       '<li>' + list.category_name + '</li>',
+		       '<li>' + list.tags + '</li>',
+		       '<li>' + list.status + '</li>')
+
+        }
+      } 
+
+    ourRequest.send();
+
+  })
+
+</script>
+</body>
+</html>
